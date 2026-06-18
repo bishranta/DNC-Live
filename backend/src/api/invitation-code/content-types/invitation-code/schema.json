@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "invitation_codes",
+  "info": {
+    "singularName": "invitation-code",
+    "pluralName": "invitation-codes",
+    "displayName": "Invitation Code",
+    "description": "Unique participant access codes for feedback submission"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "code": { "type": "string", "required": true, "unique": true },
+    "isActive": { "type": "boolean", "default": true },
+    "feedbacks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session-feedback.session-feedback",
+      "mappedBy": "invitationCode"
+    }
+  }
+}

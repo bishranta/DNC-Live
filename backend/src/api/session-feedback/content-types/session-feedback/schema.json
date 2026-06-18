@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "session_feedbacks",
+  "info": {
+    "singularName": "session-feedback",
+    "pluralName": "session-feedbacks",
+    "displayName": "Session Feedback",
+    "description": "Anonymous participant feedback per session"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "rating": {
+      "type": "integer",
+      "required": true
+    },
+    "comment": {
+      "type": "text"
+    },
+    "session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::session.session",
+      "inversedBy": "feedbacks"
+    },
+    "invitationCode": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::invitation-code.invitation-code",
+      "inversedBy": "feedbacks"
+    }
+  }
+}

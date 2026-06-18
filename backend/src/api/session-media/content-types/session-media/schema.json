@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "session_medias",
+  "info": {
+    "singularName": "session-media",
+    "pluralName": "session-medias",
+    "displayName": "Session Media",
+    "description": "Recorded YouTube videos per session — metadata auto-fetched"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "youtubeUrl": {
+      "type": "string",
+      "required": true
+    },
+    "youtubeVideoId": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "thumbnailUrl": {
+      "type": "string"
+    },
+    "displayOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::session.session",
+      "inversedBy": "media"
+    }
+  }
+}

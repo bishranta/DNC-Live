@@ -1,0 +1,53 @@
+# Local dev tooling (machine-specific, not part of the app)
+/tools/
+/dev-frontend.cmd
+
+# graphify knowledge-graph output (generated locally)
+/graphify-out/
+
+# Stray root lockfile (npm projects live in frontend/ and backend/)
+/package-lock.json
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Env files (frontend keeps its own .env.example committed)
+.env
+*.local
+
+# Logs
+logs
+*.log
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Local agent/tool caches (machine-specific)
+.agents/
+.impeccable/
+
+# Local Claude skills (only .claude/skills/graphify/ is committed)
+.claude/skills/brandkit
+.claude/skills/ckm-*
+.claude/skills/design-taste-*
+.claude/skills/full-output-enforcement
+.claude/skills/gpt-taste
+.claude/skills/high-end-visual-design
+.claude/skills/image-to-code
+.claude/skills/imagegen-frontend-*
+.claude/skills/industrial-brutalist-ui
+.claude/skills/minimalist-ui
+.claude/skills/redesign-existing-projects
+.claude/skills/stitch-design-taste
+.claude/skills/impeccable
+.claude/skills/ui-ux-pro-max
+
+# Skills lock file (machine-specific)
+skills-lock.json

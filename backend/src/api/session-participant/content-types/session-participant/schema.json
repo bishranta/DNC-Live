@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "session_participants",
+  "info": {
+    "singularName": "session-participant",
+    "pluralName": "session-participants",
+    "displayName": "Session Participant",
+    "description": "Speakers, moderators, panelists and chairs per session"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "bio": {
+      "type": "text"
+    },
+    "designation": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string"
+    },
+    "role": {
+      "type": "enumeration",
+      "enum": [
+        "speaker",
+        "panelist",
+        "moderator",
+        "session_chair"
+      ],
+      "required": true
+    },
+    "displayOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::session.session",
+      "inversedBy": "participants"
+    }
+  }
+}

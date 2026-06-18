@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Sora", system-ui, sans-serif;
+
+  /* Brand palette — OKLCH */
+  --color-dnc-blue: oklch(0.35 0.18 266);
+  --color-dnc-blue-dark: oklch(0.26 0.16 269);
+  --color-dnc-orange: oklch(0.70 0.19 46);
+  --color-dnc-red: oklch(0.48 0.22 29);
+  --color-dnc-black: oklch(0.23 0.037 260);
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+    background-color: oklch(0.984 0.006 265);
+    color: oklch(0.23 0.037 260);
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-ping {
+      animation: none;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.80 0.01 265);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.65 0.015 265);
+}

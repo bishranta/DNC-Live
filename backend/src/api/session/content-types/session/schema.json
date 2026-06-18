@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sessions",
+  "info": {
+    "singularName": "session",
+    "pluralName": "sessions",
+    "displayName": "Session",
+    "description": "Conference sessions with status control"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "agenda": {
+      "type": "text",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "sessionStatus": {
+      "type": "enumeration",
+      "required": true,
+      "default": "upcoming",
+      "enum": [
+        "upcoming",
+        "ongoing",
+        "completed"
+      ]
+    },
+    "startTime": {
+      "type": "datetime"
+    },
+    "endTime": {
+      "type": "datetime"
+    },
+    "displayOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "isFeatured": {
+      "type": "boolean",
+      "default": false
+    },
+    "liveYoutubeUrl": {
+      "type": "string"
+    },
+    "participants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session-participant.session-participant",
+      "mappedBy": "session"
+    },
+    "media": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session-media.session-media",
+      "mappedBy": "session"
+    },
+    "feedbacks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session-feedback.session-feedback",
+      "mappedBy": "session"
+    }
+  }
+}
