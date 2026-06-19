@@ -22,7 +22,7 @@
     },
     "description": {
       "type": "text",
-      "required": true
+      "required": false
     },
     "sessionStatus": {
       "type": "enumeration",
@@ -67,6 +67,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::session-feedback.session-feedback",
+      "mappedBy": "session"
+    },
+    "documents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session-document.session-document",
       "mappedBy": "session"
     }
   }

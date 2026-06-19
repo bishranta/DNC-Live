@@ -492,7 +492,7 @@ export interface ApiNoticeNotice extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    description: Schema.Attribute.RichText;
     isPublished: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -506,6 +506,38 @@ export interface ApiNoticeNotice extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSessionDocumentSessionDocument
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'session_documents';
+  info: {
+    displayName: 'Session Document';
+    pluralName: 'session-documents';
+    singularName: 'session-document';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isPublished: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::session-document.session-document'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -636,8 +668,12 @@ export interface ApiSessionSession extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     displayOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    documents: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::session-document.session-document'
+    >;
     endTime: Schema.Attribute.DateTime;
     feedbacks: Schema.Attribute.Relation<
       'oneToMany',
@@ -1186,6 +1222,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::invitation-code.invitation-code': ApiInvitationCodeInvitationCode;
       'api::notice.notice': ApiNoticeNotice;
+      'api::session-document.session-document': ApiSessionDocumentSessionDocument;
       'api::session-feedback.session-feedback': ApiSessionFeedbackSessionFeedback;
       'api::session-media.session-media': ApiSessionMediaSessionMedia;
       'api::session-participant.session-participant': ApiSessionParticipantSessionParticipant;

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "session_documents",
+  "info": {
+    "singularName": "session-document",
+    "pluralName": "session-documents",
+    "displayName": "Session Document"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "isPublished": {
+      "type": "boolean",
+      "default": false
+    },
+    "session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::session.session",
+      "inversedBy": "documents"
+    }
+  }
+}

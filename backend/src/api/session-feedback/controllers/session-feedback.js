@@ -20,19 +20,21 @@ module.exports = factories.createCoreController(
         return ctx.badRequest('rating must be between 1 and 5');
       }
 
-      // Validate invitation code exists and is active
-      const code = await strapi.db
+      // Validate invitation code exists and is active (invitationCode is the code string, not an ID)
+      const codeRecord = await strapi.db
         .query('api::invitation-code.invitation-code')
-        .findOne({ where: { id: invitationCode, isActive: true } });
+        .findOne({ where: { code: invitationCode, isActive: true } });
 
-      if (!code) {
+      if (!codeRecord) {
         return ctx.unauthorized('Invalid or inactive invitation code');
       }
+
+      const codeId = codeRecord.id;
 
       // Upsert: update if exists, create if not
       const existing = await strapi.db
         .query('api::session-feedback.session-feedback')
-        .findOne({ where: { session, invitationCode } });
+        .findOne({ where: { session, invitationCode: codeId } });
 
       let result;
 
@@ -46,7 +48,7 @@ module.exports = factories.createCoreController(
       } else {
         result = await strapi.db
           .query('api::session-feedback.session-feedback')
-          .create({ data: { session, invitationCode, rating, comment: comment || null } });
+          .create({ data: { session, invitationCode: codeId, rating, comment: comment || null } });
       }
 
       return ctx.send({ data: result });
