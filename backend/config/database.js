@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = ({ env }) => {
+module.exports = (/** @type {{ env: any }} */ { env }) => {
   const client = env('DATABASE_CLIENT', 'sqlite');
 
   const connections = {
@@ -53,7 +53,7 @@ module.exports = ({ env }) => {
   return {
     connection: {
       client,
-      ...connections[client],
+      ...connections[/** @type {keyof typeof connections} */ (client)],
       acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     },
   };

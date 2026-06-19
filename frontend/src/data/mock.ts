@@ -2,6 +2,7 @@ import type {
   InvitationCode,
   Notice,
   Session,
+  SessionDocument,
   SessionMedia,
   SessionParticipant,
 } from "../types/api";
@@ -48,6 +49,16 @@ const participants: Record<number, SessionParticipant[]> = {
   ],
 };
 
+const documents: Record<number, SessionDocument[]> = {
+  1: [
+    { id: 1, documentId: "doc-1", title: "Keynote Slide Deck", url: "https://drive.google.com/file/d/example1", isPublished: true },
+    { id: 2, documentId: "doc-2", title: "DNF 2.0 Policy Brief", url: "https://drive.google.com/file/d/example2", isPublished: true },
+  ],
+  3: [
+    { id: 3, documentId: "doc-3", title: "Opening Ceremony Programme", url: "https://drive.google.com/file/d/example3", isPublished: true },
+  ],
+};
+
 const media: Record<number, SessionMedia[]> = {
   3: [
     {
@@ -78,6 +89,7 @@ export const mockSessions: Session[] = [
     liveYoutubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     participants: participants[1],
     media: [],
+    documents: documents[1],
     createdAt: now,
     updatedAt: now,
   },
@@ -114,6 +126,7 @@ export const mockSessions: Session[] = [
     liveYoutubeUrl: null,
     participants: participants[3],
     media: media[3],
+    documents: documents[3],
     createdAt: now,
     updatedAt: now,
   },

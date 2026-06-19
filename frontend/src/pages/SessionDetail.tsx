@@ -123,6 +123,30 @@ export function SessionDetail() {
         </section>
       )}
 
+      {/* Documents */}
+      {session.documents && session.documents.filter((d) => d.isPublished).length > 0 && (
+        <section className="mb-8 w-auto">
+          <h2 className="mb-3 font-display text-sm font-semibold text-slate-900">Documents</h2>
+          <div className="space-y-2">
+            {session.documents.filter((d) => d.isPublished).map((doc) => (
+              <a
+                key={doc.id}
+                href={doc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-dnc-blue hover:bg-dnc-blue/5 hover:text-dnc-blue"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                {doc.title}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Recordings */}
       {session.sessionStatus === "completed" && (
         <section className="mb-8">

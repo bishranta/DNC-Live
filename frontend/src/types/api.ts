@@ -70,6 +70,7 @@ export interface Session {
   liveYoutubeUrl?: string | null;
   participants?: SessionParticipant[];
   media?: SessionMedia[];
+  documents?: SessionDocument[];
   createdAt: string;
   updatedAt: string;
 }
@@ -90,6 +91,14 @@ export interface InvitationCode {
   documentId: string;
   code: string;
   isActive: boolean;
+}
+
+export interface SessionDocument {
+  id: number;
+  documentId: string;
+  title: string;
+  url: string;
+  isPublished: boolean;
 }
 
 export interface SessionFeedback {

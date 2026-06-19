@@ -9,6 +9,7 @@ import type { Session, StrapiCollectionResponse, StrapiSingleResponse } from "..
 const SESSION_POPULATE = {
   participants: { populate: ["photo"] },
   media: true,
+  documents: true,
 };
 
 export function useSessions() {
