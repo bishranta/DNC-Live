@@ -5,6 +5,13 @@ import { StarRating } from "../components/StarRating";
 import { useSessions } from "../hooks/useSessions";
 import { useSubmitFeedback, useValidateInvitationCode } from "../hooks/useFeedback";
 import { participantCodeStorage } from "../lib/storage";
+import {
+  HiTicket,
+  HiCheckCircle,
+  HiArrowRight,
+  HiArrowLeft,
+  HiArrowPath,
+} from "react-icons/hi2";
 
 type Step = "code" | "select" | "rate" | "success";
 
@@ -65,23 +72,31 @@ export function Feedback() {
 
   return (
     <Container className="max-w-lg py-8 md:py-10">
-      <h1 className="mb-1.5 font-display text-xl font-bold text-slate-900">Session Feedback</h1>
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="font-display text-xl font-bold text-slate-900">Session Feedback</h1>
+        <p className="mt-1 text-sm text-slate-400">Anonymous — your name is never recorded.</p>
+      </div>
+
+      {/* Active code chip */}
       {step !== "code" && code && (
-        <div className="mb-1 flex items-center gap-2">
-          <span className="font-mono text-xs font-medium text-slate-500">{code}</span>
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-dnc-blue/30 bg-dnc-blue/8 px-3 py-2.5">
+          <HiTicket className="h-4 w-4 shrink-0 text-dnc-blue" />
+          <span className="font-mono text-sm font-semibold text-dnc-blue">{code}</span>
           <button
             type="button"
             onClick={handleSwitchCode}
-            className="inline-flex items-center gap-1 rounded-md bg-dnc-blue/10 px-2.5 py-1 text-xs font-semibold text-dnc-blue transition-colors hover:bg-dnc-blue/15"
+            className="ml-auto flex items-center gap-1.5 rounded-md border border-dnc-blue/30 bg-white px-2.5 py-1 text-xs font-semibold text-dnc-blue transition-colors hover:bg-dnc-blue hover:text-white"
           >
+            <HiArrowPath className="h-3.5 w-3.5" />
             Switch code
           </button>
         </div>
       )}
-      <p className="text-sm text-slate-400">Anonymous — your name is never recorded.</p>
 
+      {/* Step: code */}
       {step === "code" && (
-        <form onSubmit={handleCodeSubmit} className="mt-7 space-y-4">
+        <form onSubmit={handleCodeSubmit} className="space-y-4">
           <div>
             <label htmlFor="code" className="block text-sm font-medium text-slate-700">
               Invitation code
@@ -92,7 +107,7 @@ export function Feedback() {
               value={codeInput}
               onChange={(e) => setCodeInput(e.target.value)}
               placeholder="ICT2026-AX91K"
-              className="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-300 transition-colors focus:border-dnc-blue focus:outline-none focus:ring-2 focus:ring-dnc-blue/20"
+              className="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-300 shadow-xs transition-colors focus:border-dnc-blue focus:outline-none focus:ring-2 focus:ring-dnc-blue/20"
               required
             />
           </div>
@@ -105,13 +120,18 @@ export function Feedback() {
           )}
 
           <Button type="submit" disabled={validateCode.isPending} className="w-full">
-            {validateCode.isPending ? "Checking…" : "Continue"}
+            <span className="flex items-center justify-center gap-2">
+              {validateCode.isPending ? "Checking…" : (
+                <>Continue <HiArrowRight className="h-4 w-4" /></>
+              )}
+            </span>
           </Button>
         </form>
       )}
 
+      {/* Step: select */}
       {step === "select" && (
-        <div className="mt-7 space-y-3">
+        <div className="space-y-3">
           <p className="text-sm font-medium text-slate-700">Select a session to rate</p>
           {feedbackEligible.length === 0 ? (
             <p className="text-sm text-slate-400">No sessions are available for feedback yet.</p>
@@ -125,9 +145,10 @@ export function Feedback() {
                     setSelectedSessionId(session.id);
                     setStep("rate");
                   }}
-                  className="block w-full rounded-lg border border-slate-200 bg-white p-4 text-left text-sm font-medium text-slate-800 transition-colors hover:border-dnc-blue hover:bg-dnc-blue/5"
+                  className="group flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white p-4 text-left text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:shadow-sm"
                 >
                   {session.title}
+                  <HiArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition-all group-hover:text-dnc-blue group-hover:translate-x-0.5" />
                 </button>
               ))}
             </div>
@@ -135,10 +156,11 @@ export function Feedback() {
         </div>
       )}
 
+      {/* Step: rate */}
       {step === "rate" && selectedSession && (
-        <form onSubmit={handleSubmitRating} className="mt-7 space-y-5">
-          <div>
-            <p className="text-xs text-slate-400">Rating for</p>
+        <form onSubmit={handleSubmitRating} className="space-y-5">
+          <div className="rounded-lg border border-slate-100 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-medium text-slate-400">Rating for</p>
             <p className="mt-0.5 font-display text-sm font-semibold text-slate-900">
               {selectedSession.title}
             </p>
@@ -156,13 +178,17 @@ export function Feedback() {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               rows={4}
-              className="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-300 transition-colors focus:border-dnc-blue focus:outline-none focus:ring-2 focus:ring-dnc-blue/20"
+              placeholder="Share your thoughts about this session…"
+              className="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-300 shadow-xs transition-colors focus:border-dnc-blue focus:outline-none focus:ring-2 focus:ring-dnc-blue/20"
             />
           </div>
 
           <div className="flex gap-2.5">
             <Button type="button" variant="secondary" onClick={() => setStep("select")}>
-              Back
+              <span className="flex items-center gap-1.5">
+                <HiArrowLeft className="h-4 w-4" />
+                Back
+              </span>
             </Button>
             <Button type="submit" disabled={submitFeedback.isPending} className="flex-1">
               {submitFeedback.isPending ? "Submitting…" : "Submit Feedback"}
@@ -171,10 +197,14 @@ export function Feedback() {
         </form>
       )}
 
+      {/* Step: success */}
       {step === "success" && (
-        <div className="mt-7 rounded-xl border border-slate-200 bg-white p-6 text-center">
+        <div className="rounded-xl border border-green-100 bg-gradient-to-b from-green-50 to-white p-8 text-center">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+            <HiCheckCircle className="h-7 w-7 text-green-600" />
+          </div>
           <p className="font-display text-base font-semibold text-slate-900">
-            Thank you for your feedback
+            Thank you for your feedback!
           </p>
           <p className="mt-1 text-sm text-slate-400">Your response has been recorded anonymously.</p>
           <Button

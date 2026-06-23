@@ -7,6 +7,7 @@ import { LiveNowCard } from "../components/LiveNowCard";
 import { NoticesPanel } from "../components/NoticesPanel";
 import { SessionAgendaCard } from "../components/SessionAgendaCard";
 import type { SessionStatus } from "../types/api";
+import { HiFire, HiCalendar, HiCheckCircle } from "react-icons/hi2";
 
 function SessionSkeleton() {
   return (
@@ -63,7 +64,10 @@ export function Home() {
 
       {/* Session agenda */}
       <div className="mt-10">
-        <h2 className="mb-4 font-display text-base font-semibold text-slate-900">Program</h2>
+        <div className="mb-4 flex items-center gap-3">
+          <h2 className="font-display text-base font-bold text-slate-900">Program</h2>
+          <div className="h-px flex-1 bg-gradient-to-r from-slate-200 to-transparent" />
+        </div>
         {sessionsLoading ? (
           <SessionSkeleton />
         ) : (
@@ -74,6 +78,8 @@ export function Home() {
               count={ongoing.length}
               open={openSections.ongoing}
               onToggle={() => toggleSection("ongoing")}
+              accent="red"
+              icon={<HiFire className="h-4 w-4 text-dnc-red" />}
             >
               {ongoing.length === 0 ? (
                 <p className="py-2 text-sm text-slate-400">No session is live right now.</p>
@@ -91,6 +97,8 @@ export function Home() {
               count={upcoming.length}
               open={openSections.upcoming}
               onToggle={() => toggleSection("upcoming")}
+              accent="blue"
+              icon={<HiCalendar className="h-4 w-4 text-dnc-blue" />}
             >
               {upcoming.length === 0 ? (
                 <p className="py-2 text-sm text-slate-400">No upcoming sessions scheduled.</p>
@@ -108,6 +116,8 @@ export function Home() {
               count={completed.length}
               open={openSections.completed}
               onToggle={() => toggleSection("completed")}
+              accent="slate"
+              icon={<HiCheckCircle className="h-4 w-4 text-slate-400" />}
             >
               {completed.length === 0 ? (
                 <p className="py-2 text-sm text-slate-400">No completed sessions yet.</p>
