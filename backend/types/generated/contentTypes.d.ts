@@ -440,6 +440,42 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAudienceQuestionAudienceQuestion
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'audience_questions';
+  info: {
+    description: 'Questions submitted by the audience during an ongoing session';
+    displayName: 'Audience Question';
+    pluralName: 'audience-questions';
+    singularName: 'audience-question';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    invitationCode: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::invitation-code.invitation-code'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::audience-question.audience-question'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Text & Schema.Attribute.Required;
+    session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiInvitationCodeInvitationCode
   extends Struct.CollectionTypeSchema {
   collectionName: 'invitation_codes';
@@ -471,6 +507,10 @@ export interface ApiInvitationCodeInvitationCode
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    questions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::audience-question.audience-question'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -696,6 +736,10 @@ export interface ApiSessionSession extends Struct.CollectionTypeSchema {
       'api::session-participant.session-participant'
     >;
     publishedAt: Schema.Attribute.DateTime;
+    questions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::audience-question.audience-question'
+    >;
     sessionStatus: Schema.Attribute.Enumeration<
       ['upcoming', 'ongoing', 'completed']
     > &
@@ -1220,6 +1264,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::audience-question.audience-question': ApiAudienceQuestionAudienceQuestion;
       'api::invitation-code.invitation-code': ApiInvitationCodeInvitationCode;
       'api::notice.notice': ApiNoticeNotice;
       'api::session-document.session-document': ApiSessionDocumentSessionDocument;

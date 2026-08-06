@@ -17,6 +17,12 @@
       "relation": "oneToMany",
       "target": "api::session-feedback.session-feedback",
       "mappedBy": "invitationCode"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::audience-question.audience-question",
+      "mappedBy": "invitationCode"
     }
   }
 }

@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "audience_questions",
+  "info": {
+    "singularName": "audience-question",
+    "pluralName": "audience-questions",
+    "displayName": "Audience Question",
+    "description": "Questions submitted by the audience during an ongoing session"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "question": {
+      "type": "text",
+      "required": true
+    },
+    "session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::session.session",
+      "inversedBy": "questions"
+    },
+    "invitationCode": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::invitation-code.invitation-code",
+      "inversedBy": "questions"
+    }
+  }
+}

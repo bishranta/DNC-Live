@@ -6,6 +6,7 @@
   "scripts": {
     "build": "strapi build",
     "console": "strapi console",
+    "import:codes": "node scripts/import-invitation-codes.js",
     "deploy": "strapi deploy",
     "dev": "strapi develop",
     "develop": "strapi develop",
