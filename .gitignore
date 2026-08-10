@@ -52,4 +52,18 @@ logs
 # Skills lock file (machine-specific)
 skills-lock.json
 
+# Local docs / data (not used by app code)
 CLAUDE.md
+PRODUCT.md
+invitation_codes.txt
+
+# AI assistant artifacts (docs/tooling only, not imported by app code)
+.claude/
+.cursor/
+.aider*
+.impeccable/
+.windsurf/
+.github/copilot-instructions.md
+graphify-out/
+AGENTS.md
+GEMINI.md
