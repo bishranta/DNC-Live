@@ -74,6 +74,12 @@
       "relation": "oneToMany",
       "target": "api::session-document.session-document",
       "mappedBy": "session"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::audience-question.audience-question",
+      "mappedBy": "session"
     }
   }
 }

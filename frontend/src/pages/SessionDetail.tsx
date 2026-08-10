@@ -13,6 +13,8 @@ import {
   HiPlayCircle,
   HiDocumentText,
   HiFilm,
+  HiChatBubbleLeftRight,
+  HiQuestionMarkCircle,
 } from "react-icons/hi2";
 
 const ROLE_GROUPS: { role: ParticipantRole; label: string }[] = [
@@ -84,13 +86,33 @@ export function SessionDetail() {
     <Container className="max-w-3xl py-8 md:py-10">
       {/* Back + meta */}
       <div className="mb-6">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-400 transition-colors hover:text-slate-700"
-        >
-          <HiArrowLeft className="h-4 w-4" />
-          Home
-        </Link>
+        <div className="flex items-center justify-between gap-3">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-400 transition-colors hover:text-slate-700"
+          >
+            <HiArrowLeft className="h-4 w-4" />
+            Home
+          </Link>
+          {session.sessionStatus === "ongoing" && (
+            <Link
+              to={`/questions?session=${session.id}`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-dnc-blue px-3 py-1.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-dnc-blue-dark"
+            >
+              <HiQuestionMarkCircle className="h-4 w-4" />
+              Ask a question
+            </Link>
+          )}
+          {session.sessionStatus === "completed" && (
+            <Link
+              to={`/feedback?session=${session.id}`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-dnc-blue px-3 py-1.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-dnc-blue-dark"
+            >
+              <HiChatBubbleLeftRight className="h-4 w-4" />
+              Give feedback
+            </Link>
+          )}
+        </div>
         <div className="mt-4 flex flex-wrap items-center gap-2.5">
           <StatusBadge status={session.sessionStatus} />
           <div className="flex items-center gap-1.5 text-sm tabular-nums text-slate-400">
@@ -149,7 +171,7 @@ export function SessionDetail() {
       {session.documents && session.documents.filter((d) => d.isPublished).length > 0 && (
         <section className="mb-8">
           <SectionHeading icon={<HiDocumentText className="h-3.5 w-3.5" />} label="Documents" />
-          <div className="space-y-2">
+          <div className="grid gap-2 sm:grid-cols-2">
             {session.documents.filter((d) => d.isPublished).map((doc) => (
               <a
                 key={doc.id}
@@ -187,6 +209,7 @@ export function SessionDetail() {
           )}
         </section>
       )}
+
     </Container>
   );
 }

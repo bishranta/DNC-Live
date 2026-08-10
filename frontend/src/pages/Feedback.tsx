@@ -1,55 +1,36 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Container } from "../components/ui/Container";
 import { Button } from "../components/ui/Button";
 import { StarRating } from "../components/StarRating";
 import { useSessions } from "../hooks/useSessions";
-import { useSubmitFeedback, useValidateInvitationCode } from "../hooks/useFeedback";
+import { useRatedSessionIds, useSubmitFeedback } from "../hooks/useFeedback";
 import { participantCodeStorage } from "../lib/storage";
 import {
   HiTicket,
   HiCheckCircle,
   HiArrowRight,
   HiArrowLeft,
-  HiArrowPath,
+  HiCheck,
 } from "react-icons/hi2";
 
-type Step = "code" | "select" | "rate" | "success";
+type Step = "select" | "rate" | "success";
 
 export function Feedback() {
-  const [step, setStep] = useState<Step>("code");
-  const [codeInput, setCodeInput] = useState("");
-  const [code, setCode] = useState<string | null>(null);
-  const [selectedSessionId, setSelectedSessionId] = useState<number | null>(null);
+  // ?session=<id> deep-links straight to the rating step (used from SessionDetail)
+  const preselected = Number(useSearchParams()[0].get("session")) || null;
+  const [step, setStep] = useState<Step>(preselected ? "rate" : "select");
+  const code = participantCodeStorage.get();
+  const [selectedSessionId, setSelectedSessionId] = useState<number | null>(preselected);
   const [rating, setRating] = useState<1 | 2 | 3 | 4 | 5>(5);
   const [comment, setComment] = useState("");
 
-  const validateCode = useValidateInvitationCode();
   const submitFeedback = useSubmitFeedback();
   const { data: sessions = [] } = useSessions();
+  const { data: ratedSessionIds = [] } = useRatedSessionIds(code);
 
   const feedbackEligible = sessions.filter((s) => s.sessionStatus !== "upcoming");
   const selectedSession = sessions.find((s) => s.id === selectedSessionId);
-
-  useEffect(() => {
-    const stored = participantCodeStorage.get();
-    if (stored) {
-      setCode(stored);
-      setStep("select");
-    }
-  }, []);
-
-  const handleCodeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    validateCode.mutate(codeInput.trim(), {
-      onSuccess: (result) => {
-        if (result) {
-          participantCodeStorage.set(result.code);
-          setCode(result.code);
-          setStep("select");
-        }
-      },
-    });
-  };
 
   const handleSubmitRating = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,16 +39,6 @@ export function Feedback() {
       { session: selectedSessionId, invitationCode: code, rating, comment: comment.trim() || undefined },
       { onSuccess: () => setStep("success") },
     );
-  };
-
-  const handleSwitchCode = () => {
-    participantCodeStorage.clear();
-    setCode(null);
-    setCodeInput("");
-    setSelectedSessionId(null);
-    setRating(5);
-    setComment("");
-    setStep("code");
   };
 
   return (
@@ -79,54 +50,11 @@ export function Feedback() {
       </div>
 
       {/* Active code chip */}
-      {step !== "code" && code && (
+      {code && (
         <div className="mb-4 flex items-center gap-2 rounded-lg border border-dnc-blue/30 bg-dnc-blue/8 px-3 py-2.5">
           <HiTicket className="h-4 w-4 shrink-0 text-dnc-blue" />
           <span className="font-mono text-sm font-semibold text-dnc-blue">{code}</span>
-          <button
-            type="button"
-            onClick={handleSwitchCode}
-            className="ml-auto flex items-center gap-1.5 rounded-md border border-dnc-blue/30 bg-white px-2.5 py-1 text-xs font-semibold text-dnc-blue transition-colors hover:bg-dnc-blue hover:text-white"
-          >
-            <HiArrowPath className="h-3.5 w-3.5" />
-            Switch code
-          </button>
         </div>
-      )}
-
-      {/* Step: code */}
-      {step === "code" && (
-        <form onSubmit={handleCodeSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="code" className="block text-sm font-medium text-slate-700">
-              Invitation code
-            </label>
-            <input
-              id="code"
-              type="text"
-              value={codeInput}
-              onChange={(e) => setCodeInput(e.target.value)}
-              placeholder="ICT2026-AX91K"
-              className="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-300 shadow-xs transition-colors focus:border-dnc-blue focus:outline-none focus:ring-2 focus:ring-dnc-blue/20"
-              required
-            />
-          </div>
-
-          {validateCode.isSuccess && !validateCode.data && (
-            <p className="text-sm text-dnc-red">Invalid or inactive code. Please check and try again.</p>
-          )}
-          {validateCode.isError && (
-            <p className="text-sm text-dnc-red">Something went wrong. Please try again.</p>
-          )}
-
-          <Button type="submit" disabled={validateCode.isPending} className="w-full">
-            <span className="flex items-center justify-center gap-2">
-              {validateCode.isPending ? "Checking…" : (
-                <>Continue <HiArrowRight className="h-4 w-4" /></>
-              )}
-            </span>
-          </Button>
-        </form>
       )}
 
       {/* Step: select */}
@@ -145,9 +73,26 @@ export function Feedback() {
                     setSelectedSessionId(session.id);
                     setStep("rate");
                   }}
-                  className="group flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white p-4 text-left text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:shadow-sm"
+                  className="group flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-white p-4 text-left text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:shadow-sm"
                 >
-                  {session.title}
+                  <span
+                    aria-hidden
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+                      ratedSessionIds.includes(session.id)
+                        ? "border-green-600 bg-green-600 text-white"
+                        : "border-slate-300"
+                    }`}
+                  >
+                    {ratedSessionIds.includes(session.id) && <HiCheck className="h-3.5 w-3.5" />}
+                  </span>
+                  <span className="flex-1">
+                    {session.title}
+                    {ratedSessionIds.includes(session.id) && (
+                      <span className="ml-2 text-xs font-normal text-green-700">
+                        feedback given
+                      </span>
+                    )}
+                  </span>
                   <HiArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition-all group-hover:text-dnc-blue group-hover:translate-x-0.5" />
                 </button>
               ))}

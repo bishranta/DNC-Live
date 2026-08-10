@@ -101,6 +101,16 @@ export interface SessionDocument {
   isPublished: boolean;
 }
 
+export interface AudienceQuestion {
+  id?: number;
+  documentId?: string;
+  session: number;
+  invitationCode: string;
+  /** Optional — participants may ask anonymously. */
+  name?: string;
+  question: string;
+}
+
 export interface SessionFeedback {
   id?: number;
   documentId?: string;

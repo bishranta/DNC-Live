@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Container } from "../ui/Container";
-import { HiHome, HiChatBubbleLeftRight } from "react-icons/hi2";
+import { HiHome, HiChatBubbleLeftRight, HiArrowRightOnRectangle } from "react-icons/hi2";
+import { participantCodeStorage } from "../../lib/storage";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `flex items-center gap-1.5 text-sm font-medium transition-all duration-150 px-3 py-1.5 rounded-lg ${
@@ -37,6 +38,17 @@ export function Header() {
             <HiChatBubbleLeftRight className="h-4 w-4" />
             Feedback
           </NavLink>
+          <button
+            type="button"
+            onClick={() => {
+              participantCodeStorage.clear();
+              window.location.reload();
+            }}
+            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 transition-all duration-150 hover:bg-slate-100 hover:text-slate-800"
+          >
+            <HiArrowRightOnRectangle className="h-4 w-4" />
+            <span className="hidden sm:inline">Sign out</span>
+          </button>
         </nav>
       </Container>
     </header>
