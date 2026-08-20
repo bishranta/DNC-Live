@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
@@ -8,14 +7,10 @@ import { Home } from "./pages/Home";
 import { SessionDetail } from "./pages/SessionDetail";
 import { Feedback } from "./pages/Feedback";
 import { Questions } from "./pages/Questions";
-import { Gate } from "./pages/Gate";
-import { participantCodeStorage } from "./lib/storage";
 
+// Invitation-code gate (./pages/Gate.tsx) is disabled — feedback/questions are open to everyone for now.
 function AppRoutes() {
   useRealtimeSync();
-  const [code, setCode] = useState(participantCodeStorage.get);
-
-  if (!code) return <Gate onUnlock={setCode} />;
 
   return (
     <Routes>

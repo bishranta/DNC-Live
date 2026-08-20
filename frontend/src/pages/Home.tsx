@@ -29,7 +29,7 @@ export function Home() {
   const [openSections, setOpenSections] = useState<Record<SessionStatus, boolean>>({
     completed: false,
     ongoing: true,
-    upcoming: true,
+    upcoming: false,
   });
   const ongoingRef = useRef<HTMLDivElement>(null);
 

@@ -11,8 +11,8 @@ module.exports = factories.createCoreController(
       const { session, invitationCode, rating, comment } = body;
 
       // Validate required fields
-      if (!session || !invitationCode || !rating) {
-        return ctx.badRequest('session, invitationCode, and rating are required');
+      if (!session || !rating) {
+        return ctx.badRequest('session and rating are required');
       }
 
       // Validate rating range
@@ -20,21 +20,25 @@ module.exports = factories.createCoreController(
         return ctx.badRequest('rating must be between 1 and 5');
       }
 
-      // Validate invitation code exists and is active (invitationCode is the code string, not an ID)
-      const codeRecord = await strapi.db
-        .query('api::invitation-code.invitation-code')
-        .findOne({ where: { code: invitationCode, isActive: true } });
+      // Invitation-code gate is disabled: resolve it only when the client still sends one.
+      let codeId = null;
+      if (invitationCode) {
+        const codeRecord = await strapi.db
+          .query('api::invitation-code.invitation-code')
+          .findOne({ where: { code: invitationCode, isActive: true } });
 
-      if (!codeRecord) {
-        return ctx.unauthorized('Invalid or inactive invitation code');
+        if (!codeRecord) {
+          return ctx.unauthorized('Invalid or inactive invitation code');
+        }
+        codeId = codeRecord.id;
       }
 
-      const codeId = codeRecord.id;
-
-      // Upsert: update if exists, create if not
-      const existing = await strapi.db
-        .query('api::session-feedback.session-feedback')
-        .findOne({ where: { session, invitationCode: codeId } });
+      // Upsert only applies when we have a code to key on — otherwise every submission is a new row.
+      const existing = codeId
+        ? await strapi.db
+            .query('api::session-feedback.session-feedback')
+            .findOne({ where: { session, invitationCode: codeId } })
+        : null;
 
       let result;
 

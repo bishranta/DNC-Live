@@ -2,13 +2,10 @@ import { useSearchParams } from "react-router-dom";
 import { Container } from "../components/ui/Container";
 import { AskQuestionForm } from "../components/AskQuestionForm";
 import { useSessions } from "../hooks/useSessions";
-import { participantCodeStorage } from "../lib/storage";
-import { HiTicket } from "react-icons/hi2";
 
 export function Questions() {
   // ?session=<id> comes from the session page; otherwise fall back to whatever is live now
   const preselected = Number(useSearchParams()[0].get("session")) || null;
-  const code = participantCodeStorage.get();
   const { data: sessions = [] } = useSessions();
 
   const session =
@@ -23,13 +20,6 @@ export function Questions() {
           Your question goes to the moderator of the live session.
         </p>
       </div>
-
-      {code && (
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-dnc-blue/30 bg-dnc-blue/8 px-3 py-2.5">
-          <HiTicket className="h-4 w-4 shrink-0 text-dnc-blue" />
-          <span className="font-mono text-sm font-semibold text-dnc-blue">{code}</span>
-        </div>
-      )}
 
       {session ? (
         <>

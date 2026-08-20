@@ -68,3 +68,6 @@ Deployment in Server Documentation.pdf
 graphify-out/
 AGENTS.md
 GEMINI.md
+
+# Infra reference (contains credentials)
+/SERVER.md

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "./ui/Button";
 import { useSubmitQuestion } from "../hooks/useAudienceQuestion";
-import { participantCodeStorage } from "../lib/storage";
 import { HiCheckCircle } from "react-icons/hi2";
 
 const inputClass =
@@ -12,15 +11,13 @@ export function AskQuestionForm({ sessionId }: { sessionId: number }) {
   const [question, setQuestion] = useState("");
   const [sent, setSent] = useState(false);
   const submitQuestion = useSubmitQuestion();
-  const code = participantCodeStorage.get();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!code || !question.trim()) return;
+    if (!question.trim()) return;
     submitQuestion.mutate(
       {
         session: sessionId,
-        invitationCode: code,
         name: name.trim() || undefined,
         question: question.trim(),
       },

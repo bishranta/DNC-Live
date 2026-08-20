@@ -105,7 +105,8 @@ export interface AudienceQuestion {
   id?: number;
   documentId?: string;
   session: number;
-  invitationCode: string;
+  /** Unused while the invitation-code gate is disabled; kept for future reactivation. */
+  invitationCode?: string;
   /** Optional — participants may ask anonymously. */
   name?: string;
   question: string;
@@ -115,7 +116,8 @@ export interface SessionFeedback {
   id?: number;
   documentId?: string;
   session: number;
-  invitationCode: string;
+  /** Unused while the invitation-code gate is disabled; kept for future reactivation. */
+  invitationCode?: string;
   rating: 1 | 2 | 3 | 4 | 5;
   comment?: string;
 }

@@ -4,14 +4,11 @@ import { Container } from "../components/ui/Container";
 import { Button } from "../components/ui/Button";
 import { StarRating } from "../components/StarRating";
 import { useSessions } from "../hooks/useSessions";
-import { useRatedSessionIds, useSubmitFeedback } from "../hooks/useFeedback";
-import { participantCodeStorage } from "../lib/storage";
+import { useSubmitFeedback } from "../hooks/useFeedback";
 import {
-  HiTicket,
   HiCheckCircle,
   HiArrowRight,
   HiArrowLeft,
-  HiCheck,
 } from "react-icons/hi2";
 
 type Step = "select" | "rate" | "success";
@@ -20,23 +17,21 @@ export function Feedback() {
   // ?session=<id> deep-links straight to the rating step (used from SessionDetail)
   const preselected = Number(useSearchParams()[0].get("session")) || null;
   const [step, setStep] = useState<Step>(preselected ? "rate" : "select");
-  const code = participantCodeStorage.get();
   const [selectedSessionId, setSelectedSessionId] = useState<number | null>(preselected);
   const [rating, setRating] = useState<1 | 2 | 3 | 4 | 5>(5);
   const [comment, setComment] = useState("");
 
   const submitFeedback = useSubmitFeedback();
   const { data: sessions = [] } = useSessions();
-  const { data: ratedSessionIds = [] } = useRatedSessionIds(code);
 
   const feedbackEligible = sessions.filter((s) => s.sessionStatus !== "upcoming");
   const selectedSession = sessions.find((s) => s.id === selectedSessionId);
 
   const handleSubmitRating = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!code || !selectedSessionId) return;
+    if (!selectedSessionId) return;
     submitFeedback.mutate(
-      { session: selectedSessionId, invitationCode: code, rating, comment: comment.trim() || undefined },
+      { session: selectedSessionId, rating, comment: comment.trim() || undefined },
       { onSuccess: () => setStep("success") },
     );
   };
@@ -48,14 +43,6 @@ export function Feedback() {
         <h1 className="font-display text-xl font-bold text-slate-900">Session Feedback</h1>
         <p className="mt-1 text-sm text-slate-400">Anonymous — your name is never recorded.</p>
       </div>
-
-      {/* Active code chip */}
-      {code && (
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-dnc-blue/30 bg-dnc-blue/8 px-3 py-2.5">
-          <HiTicket className="h-4 w-4 shrink-0 text-dnc-blue" />
-          <span className="font-mono text-sm font-semibold text-dnc-blue">{code}</span>
-        </div>
-      )}
 
       {/* Step: select */}
       {step === "select" && (
@@ -75,24 +62,7 @@ export function Feedback() {
                   }}
                   className="group flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-white p-4 text-left text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:shadow-sm"
                 >
-                  <span
-                    aria-hidden
-                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
-                      ratedSessionIds.includes(session.id)
-                        ? "border-green-600 bg-green-600 text-white"
-                        : "border-slate-300"
-                    }`}
-                  >
-                    {ratedSessionIds.includes(session.id) && <HiCheck className="h-3.5 w-3.5" />}
-                  </span>
-                  <span className="flex-1">
-                    {session.title}
-                    {ratedSessionIds.includes(session.id) && (
-                      <span className="ml-2 text-xs font-normal text-green-700">
-                        feedback given
-                      </span>
-                    )}
-                  </span>
+                  <span className="flex-1">{session.title}</span>
                   <HiArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition-all group-hover:text-dnc-blue group-hover:translate-x-0.5" />
                 </button>
               ))}

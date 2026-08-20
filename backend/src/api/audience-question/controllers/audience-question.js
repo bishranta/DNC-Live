@@ -10,17 +10,21 @@ module.exports = factories.createCoreController(
       const body = ctx.request.body?.data || ctx.request.body;
       const { session, invitationCode, name, question } = body;
 
-      if (!session || !invitationCode || !question) {
-        return ctx.badRequest('session, invitationCode, and question are required');
+      if (!session || !question) {
+        return ctx.badRequest('session and question are required');
       }
 
-      // invitationCode is the code string, not an ID
-      const codeRecord = await strapi.db
-        .query('api::invitation-code.invitation-code')
-        .findOne({ where: { code: invitationCode, isActive: true } });
+      // Invitation-code gate is disabled: resolve it only when the client still sends one.
+      let codeId = null;
+      if (invitationCode) {
+        const codeRecord = await strapi.db
+          .query('api::invitation-code.invitation-code')
+          .findOne({ where: { code: invitationCode, isActive: true } });
 
-      if (!codeRecord) {
-        return ctx.unauthorized('Invalid or inactive invitation code');
+        if (!codeRecord) {
+          return ctx.unauthorized('Invalid or inactive invitation code');
+        }
+        codeId = codeRecord.id;
       }
 
       // Questions are not upserted — one participant may ask several.
@@ -29,7 +33,7 @@ module.exports = factories.createCoreController(
         .create({
           data: {
             session,
-            invitationCode: codeRecord.id,
+            invitationCode: codeId,
             name: name || null,
             question,
           },
