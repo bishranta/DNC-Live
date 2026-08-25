@@ -178,7 +178,7 @@ export function SessionDetail() {
                 href={doc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:text-dnc-blue hover:shadow-sm"
+                className="group flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:text-dnc-blue hover:shadow-sm sm:col-start-1"
               >
                 <HiDocumentText className="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-dnc-blue" />
                 {doc.title}
