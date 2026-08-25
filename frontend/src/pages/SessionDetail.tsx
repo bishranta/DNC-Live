@@ -170,7 +170,7 @@ export function SessionDetail() {
       {/* Documents */}
       {session.documents && session.documents.filter((d) => d.isPublished).length > 0 && (
         <section className="mb-8">
-          <SectionHeading icon={<HiDocumentText className="h-3.5 w-3.5" />} label="Documents" />
+          <SectionHeading icon={<HiDocumentText className="h-3.5 w-3.5" />} label="Quick Links" />
           <div className="grid gap-2 sm:grid-cols-2">
             {session.documents.filter((d) => d.isPublished).map((doc) => (
               <a

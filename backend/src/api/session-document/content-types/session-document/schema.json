@@ -21,7 +21,7 @@
     },
     "isPublished": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "session": {
       "type": "relation",

@@ -19,7 +19,11 @@ export function useSessions() {
       if (USE_MOCK_DATA) return mockSessions;
 
       const query = qs.stringify(
-        { populate: SESSION_POPULATE, sort: ["displayOrder:asc"] },
+        {
+          populate: SESSION_POPULATE,
+          sort: ["displayOrder:asc"],
+          pagination: { pageSize: 100 },
+        },
         { encodeValuesOnly: true },
       );
       const res = await api.get<StrapiCollectionResponse<Session>>(`/sessions?${query}`);

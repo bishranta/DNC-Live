@@ -32,7 +32,7 @@ export function LiveNowCard({ session, onClick }: { session?: Session; onClick: 
           </span>
           <div className="overflow-hidden">
             <div className="flex items-center gap-2">
-              <p className="text-xs font-bold uppercase tracking-widest text-dnc-red">Live now</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-dnc-red pl-1">Live now</p>
               <span className="rounded-full bg-dnc-red/10 px-2 py-0.5 text-[10px] font-semibold text-dnc-red ring-1 ring-dnc-red/20">
                 On Air
               </span>
