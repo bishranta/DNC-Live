@@ -18,8 +18,10 @@ import {
 } from "react-icons/hi2";
 
 const ROLE_GROUPS: { role: ParticipantRole; label: string }[] = [
-  { role: "moderator", label: "Moderator" },
+  { role: "host", label: "Host" },
+  { role: "facilitator", label: "Facilitator" },
   { role: "speaker", label: "Speakers" },
+  { role: "presenter", label: "Presenters" },
   { role: "panelist", label: "Panelists" },
   { role: "session_chair", label: "Session Chairs" },
 ];

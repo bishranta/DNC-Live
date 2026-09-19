@@ -38,7 +38,9 @@
       "enum": [
         "speaker",
         "panelist",
-        "moderator",
+        "facilitator",
+        "host",
+        "presenter",
         "session_chair"
       ],
       "required": true

@@ -17,7 +17,7 @@ export function Questions() {
       <div className="mb-6">
         <h1 className="font-display text-xl font-bold text-slate-900">Ask a Question</h1>
         <p className="mt-1 text-sm text-slate-400">
-          Your question goes to the moderator of the live session.
+          Your question goes to the facilitator of the live session.
         </p>
       </div>
 

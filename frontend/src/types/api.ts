@@ -23,7 +23,9 @@ export type SessionStatus = "upcoming" | "ongoing" | "completed";
 export type ParticipantRole =
   | "speaker"
   | "panelist"
-  | "moderator"
+  | "facilitator"
+  | "host"
+  | "presenter"
   | "session_chair";
 
 export interface StrapiMedia {

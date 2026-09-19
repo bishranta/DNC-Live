@@ -4,14 +4,18 @@ import { resolveMediaUrl } from "../lib/api";
 const roleLabels: Record<SessionParticipant["role"], string> = {
   speaker: "Speaker",
   panelist: "Panelist",
-  moderator: "Moderator",
+  facilitator: "Facilitator",
+  host: "Host",
+  presenter: "Presenter",
   session_chair: "Session Chair",
 };
 
 const roleColors: Record<SessionParticipant["role"], string> = {
   speaker: "text-dnc-blue",
   panelist: "text-dnc-orange",
-  moderator: "text-dnc-red",
+  facilitator: "text-dnc-red",
+  host: "text-dnc-red",
+  presenter: "text-dnc-blue",
   session_chair: "text-slate-500",
 };
 
