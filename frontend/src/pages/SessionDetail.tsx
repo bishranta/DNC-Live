@@ -38,11 +38,11 @@ function groupByRole(participants: SessionParticipant[]) {
 
 function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <div className="flex items-center gap-2 mb-3">
-      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-dnc-blue/10 text-dnc-blue">
+    <div className="flex items-center gap-2.5 mb-3">
+      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-dnc-blue/10 text-dnc-blue">
         {icon}
       </span>
-      <h2 className="font-display text-sm font-semibold text-slate-900">{label}</h2>
+      <h2 className="font-display text-lg font-bold text-slate-900">{label}</h2>
       <div className="h-px flex-1 bg-slate-100" />
     </div>
   );
@@ -122,14 +122,14 @@ export function SessionDetail() {
             {formatDateTime(session.startTime)}
           </div>
         </div>
-        <h1 className="mt-3 font-display text-2xl font-bold leading-snug text-slate-900 sm:text-3xl">
+        <h1 className="mt-3 font-display text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">
           {session.title}
         </h1>
         {session.agenda && (
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">{session.agenda}</p>
+          <p className="mt-3 max-w-2xl text-lg leading-relaxed text-slate-600">{session.agenda}</p>
         )}
         {session.description && (
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400">
+          <p className="mt-2 max-w-2xl text-base leading-relaxed text-slate-400">
             {session.description}
           </p>
         )}
@@ -138,11 +138,11 @@ export function SessionDetail() {
       {/* Speakers & Panelists */}
       {session.participants && session.participants.length > 0 && (
         <section className="mb-8 space-y-5">
-          <SectionHeading icon={<HiUsers className="h-3.5 w-3.5" />} label="Speakers & Panelists" />
+          <SectionHeading icon={<HiUsers className="h-4 w-4" />} label="Session Participants" />
           {groupByRole(session.participants).map(({ role, label, members }) => (
             <div key={role}>
-              <p className="mb-3 font-display text-base font-bold text-slate-900">{label}</p>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <p className="mb-3 text-sm font-bold uppercase tracking-wide text-dnc-blue">{label}</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                 {members.map((participant) => (
                   <ParticipantCard key={participant.id} participant={participant} />
                 ))}
@@ -155,14 +155,14 @@ export function SessionDetail() {
       {/* Live stream */}
       {session.sessionStatus === "ongoing" && (
         <section className="mb-8">
-          <SectionHeading icon={<HiPlayCircle className="h-3.5 w-3.5" />} label="Watch Live" />
+          <SectionHeading icon={<HiPlayCircle className="h-4 w-4" />} label="Watch Live" />
           {session.liveYoutubeUrl ? (
             <div className="overflow-hidden rounded-xl border border-red-100 bg-gradient-to-br from-red-50/40 to-white p-3 shadow-sm">
               <YouTubeEmbed url={session.liveYoutubeUrl} title={session.title} />
-              <p className="mt-2.5 px-1 text-sm font-medium text-slate-700">{session.title}</p>
+              <p className="mt-2.5 px-1 text-base font-medium text-slate-700">{session.title}</p>
             </div>
           ) : (
-            <p className="text-sm text-slate-400">Livestream link will appear here once it starts.</p>
+            <p className="text-base text-slate-400">Livestream link will appear here once it starts.</p>
           )}
         </section>
       )}
@@ -170,7 +170,7 @@ export function SessionDetail() {
       {/* Documents */}
       {session.documents && session.documents.filter((d) => d.isPublished).length > 0 && (
         <section className="mb-8">
-          <SectionHeading icon={<HiDocumentText className="h-3.5 w-3.5" />} label="Quick Links" />
+          <SectionHeading icon={<HiDocumentText className="h-4 w-4" />} label="Quick Links" />
           <div className="grid gap-2 sm:grid-cols-2">
             {session.documents.filter((d) => d.isPublished).map((doc) => (
               <a
@@ -178,9 +178,9 @@ export function SessionDetail() {
                 href={doc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:text-dnc-blue hover:shadow-sm sm:col-start-1"
+                className="group flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-base font-medium text-slate-800 transition-all hover:border-dnc-blue hover:bg-dnc-blue/5 hover:text-dnc-blue hover:shadow-sm sm:col-start-1"
               >
-                <HiDocumentText className="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-dnc-blue" />
+                <HiDocumentText className="h-5 w-5 shrink-0 text-slate-400 transition-colors group-hover:text-dnc-blue" />
                 {doc.title}
               </a>
             ))}
@@ -191,21 +191,21 @@ export function SessionDetail() {
       {/* Recordings */}
       {session.sessionStatus === "completed" && (
         <section className="mb-8">
-          <SectionHeading icon={<HiFilm className="h-3.5 w-3.5" />} label="Recordings" />
+          <SectionHeading icon={<HiFilm className="h-4 w-4" />} label="Recordings" />
           {session.media && session.media.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               {session.media.map((item) => (
                 <div
                   key={item.id}
                   className="overflow-hidden rounded-lg border border-slate-200 bg-white p-2 shadow-xs transition-shadow hover:shadow-sm"
                 >
                   <YouTubeEmbed url={item.youtubeUrl} title={item.title} />
-                  <p className="mt-1.5 px-0.5 text-xs font-medium text-slate-700 line-clamp-1">{item.title}</p>
+                  <p className="mt-1.5 px-0.5 text-sm font-medium text-slate-700 line-clamp-1">{item.title}</p>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-slate-400">Recording not available yet.</p>
+            <p className="text-base text-slate-400">Recording not available yet.</p>
           )}
         </section>
       )}

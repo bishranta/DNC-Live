@@ -18,12 +18,12 @@ export function ParticipantCard({ participant }: { participant: SessionParticipa
         )}
       </div>
       <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-slate-900">{participant.name}</p>
+        <p className="truncate text-base font-semibold text-slate-900">{participant.name}</p>
         {participant.designation && (
-          <p className="truncate text-xs text-slate-500">{participant.designation}</p>
+          <p className="truncate text-sm text-slate-500">{participant.designation}</p>
         )}
         {participant.organization && (
-          <p className="truncate text-xs text-slate-400">{participant.organization}</p>
+          <p className="truncate text-sm text-slate-400">{participant.organization}</p>
         )}
       </div>
     </div>
