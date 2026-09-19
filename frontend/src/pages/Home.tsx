@@ -15,7 +15,7 @@ function SessionSkeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="h-24 animate-pulse rounded-xl bg-slate-100 motion-reduce:animate-none"
+          className="h-24 animate-pulse rounded-xl bg-slate-200 motion-reduce:animate-none"
         />
       ))}
     </div>
@@ -56,7 +56,7 @@ export function Home() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_2fr]">
         <LiveNowCard session={liveSession} onClick={goToOngoing} />
         {noticesLoading ? (
-          <div className="h-24 animate-pulse rounded-xl bg-slate-100 motion-reduce:animate-none" />
+          <div className="h-24 animate-pulse rounded-xl bg-slate-200 motion-reduce:animate-none" />
         ) : (
           <NoticesPanel notices={notices} />
         )}
@@ -65,7 +65,7 @@ export function Home() {
       {/* Session agenda */}
       <div className="mt-10">
         <div className="mb-4 flex items-center gap-3">
-          <h2 className="font-display text-base font-bold text-slate-900">Program</h2>
+          <h2 className="font-display text-base font-bold text-slate-900">Session Details</h2>
           <div className="h-px flex-1 bg-gradient-to-r from-slate-200 to-transparent" />
         </div>
         {sessionsLoading ? (
@@ -86,7 +86,7 @@ export function Home() {
               ) : (
                 <div className="space-y-2">
                   {ongoing.map((session, i) => (
-                    <SessionAgendaCard key={session.id} session={session} delay={i * 40} />
+                    <SessionAgendaCard key={session.id} session={session} delay={Math.min(i, 6) * 40} />
                   ))}
                 </div>
               )}
@@ -105,7 +105,7 @@ export function Home() {
               ) : (
                 <div className="space-y-2">
                   {upcoming.map((session, i) => (
-                    <SessionAgendaCard key={session.id} session={session} delay={i * 40} />
+                    <SessionAgendaCard key={session.id} session={session} delay={Math.min(i, 6) * 40} />
                   ))}
                 </div>
               )}
@@ -124,7 +124,7 @@ export function Home() {
               ) : (
                 <div className="space-y-2">
                   {completed.map((session, i) => (
-                    <SessionAgendaCard key={session.id} session={session} delay={i * 40} />
+                    <SessionAgendaCard key={session.id} session={session} delay={Math.min(i, 6) * 40} />
                   ))}
                 </div>
               )}

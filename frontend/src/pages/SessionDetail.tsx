@@ -51,11 +51,11 @@ function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string 
 function DetailSkeleton() {
   return (
     <div className="space-y-6 py-8">
-      <div className="h-4 w-24 animate-pulse rounded bg-slate-100 motion-reduce:animate-none" />
+      <div className="h-4 w-24 animate-pulse rounded bg-slate-200 motion-reduce:animate-none" />
       <div className="space-y-3">
-        <div className="h-8 w-3/4 animate-pulse rounded bg-slate-100 motion-reduce:animate-none" />
-        <div className="h-4 w-full animate-pulse rounded bg-slate-100 motion-reduce:animate-none" />
-        <div className="h-4 w-2/3 animate-pulse rounded bg-slate-100 motion-reduce:animate-none" />
+        <div className="h-8 w-3/4 animate-pulse rounded bg-slate-200 motion-reduce:animate-none" />
+        <div className="h-4 w-full animate-pulse rounded bg-slate-200 motion-reduce:animate-none" />
+        <div className="h-4 w-2/3 animate-pulse rounded bg-slate-200 motion-reduce:animate-none" />
       </div>
     </div>
   );
@@ -141,10 +141,8 @@ export function SessionDetail() {
           <SectionHeading icon={<HiUsers className="h-3.5 w-3.5" />} label="Speakers & Panelists" />
           {groupByRole(session.participants).map(({ role, label, members }) => (
             <div key={role}>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                {label}
-              </p>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <p className="mb-3 font-display text-base font-bold text-slate-900">{label}</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {members.map((participant) => (
                   <ParticipantCard key={participant.id} participant={participant} />
                 ))}

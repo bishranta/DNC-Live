@@ -564,7 +564,7 @@ export interface ApiSessionDocumentSessionDocument
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isPublished: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isPublished: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -682,7 +682,14 @@ export interface ApiSessionParticipantSessionParticipant
     photo: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
     role: Schema.Attribute.Enumeration<
-      ['speaker', 'panelist', 'moderator', 'session_chair']
+      [
+        'speaker',
+        'panelist',
+        'facilitator',
+        'host',
+        'presenter',
+        'session_chair',
+      ]
     > &
       Schema.Attribute.Required;
     session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'>;
@@ -704,7 +711,7 @@ export interface ApiSessionSession extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    agenda: Schema.Attribute.Text & Schema.Attribute.Required;
+    agenda: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

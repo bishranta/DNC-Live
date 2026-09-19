@@ -19,7 +19,7 @@ export function useRevealAnimation(delay = 0) {
         el.style.transform = "translateY(0)";
         observer.disconnect();
       },
-      { threshold: 0.05 },
+      { threshold: 0.05, rootMargin: "150px 0px" },
     );
 
     observer.observe(el);
