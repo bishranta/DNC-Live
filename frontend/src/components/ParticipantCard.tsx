@@ -1,7 +1,8 @@
 import type { SessionParticipant } from "../types/api";
 import { resolveMediaUrl } from "../lib/api";
 
-export function ParticipantCard({ participant }: { participant: SessionParticipant }) {
+export function ParticipantCard({ participant: sessionParticipant }: { participant: SessionParticipant }) {
+  const participant = sessionParticipant.participant;
   const photoUrl = resolveMediaUrl(participant.photo?.url);
 
   return (

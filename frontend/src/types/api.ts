@@ -36,7 +36,7 @@ export interface StrapiMedia {
   height?: number | null;
 }
 
-export interface SessionParticipant {
+export interface Participant {
   id: number;
   documentId: string;
   name: string;
@@ -44,6 +44,15 @@ export interface SessionParticipant {
   bio?: string | null;
   designation?: string | null;
   organization?: string | null;
+}
+
+// One participant's appearance in one session - the join entity that carries
+// the per-session role, so the same participant can appear in multiple
+// sessions with different roles.
+export interface SessionParticipant {
+  id: number;
+  documentId: string;
+  participant: Participant;
   role: ParticipantRole;
   displayOrder: number;
 }

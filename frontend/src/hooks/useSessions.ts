@@ -7,7 +7,7 @@ import type { Session, StrapiCollectionResponse, StrapiSingleResponse } from "..
 // Strapi v5 only returns photo/media files when the relation holding them is
 // populated explicitly - populate=* does not recurse into nested relations.
 const SESSION_POPULATE = {
-  participants: { populate: ["photo"] },
+  participants: { populate: { participant: { populate: ["photo"] } } },
   media: true,
   documents: true,
 };

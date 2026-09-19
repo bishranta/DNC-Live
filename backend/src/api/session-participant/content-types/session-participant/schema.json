@@ -5,33 +5,18 @@
     "singularName": "session-participant",
     "pluralName": "session-participants",
     "displayName": "Session Participant",
-    "description": "Speakers, moderators, panelists and chairs per session"
+    "description": "Links a participant to a session with a role, so one participant can appear in many sessions with different roles"
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "photo": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "bio": {
-      "type": "text"
-    },
-    "designation": {
-      "type": "string"
-    },
-    "organization": {
-      "type": "string"
+    "participant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::participant.participant",
+      "inversedBy": "appearances"
     },
     "role": {
       "type": "enumeration",

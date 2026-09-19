@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "participants",
+  "info": {
+    "singularName": "participant",
+    "pluralName": "participants",
+    "displayName": "Participant",
+    "description": "A person who can appear across multiple sessions with different roles"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "bio": {
+      "type": "text"
+    },
+    "designation": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string"
+    },
+    "appearances": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session-participant.session-participant",
+      "mappedBy": "participant"
+    }
+  }
+}
